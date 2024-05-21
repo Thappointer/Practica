@@ -1,0 +1,31 @@
+/fa llegir inventari de borna i surt com si no existís [sí existeix]
+// a llegir_riu no inicialitzava una ciutat a la posició de la id
+
+/Max_id no es defineix, a temps. Es veu que, al declarar un riu, hi ha un temps d'espera molt gran fins que el id passa a ser el màxim.
+/Temps d'espera que el jutge no considerarà. 
+//Estava compilant i executant -> el temps era el de compilar
+
+/no es llegeix l'inventari de barna
+//tenia un if en comptes d'un while
+
+/posar producte, modificar producte, treure producte no escriuen el pes i volum totals
+//accedir a les dades des de la versió de ciutat.
+
+/falla verificar_inventari
+//error de verificació: posició iniialitzada al mapa des de la classe riu.
+
+/bucle infinit a comerciar: no es suma l'iterador, o es suma però aquest no canvia.
+//li sumava al id, no al iterador.
+
+///Comprovat fins al primer viatge :)
+
+/viatge no registra correctament les ciutats.
+//mala interpretació de fer_viatge: el vaixell no s'ha de modificar: compres/vendes
+
+/Operacions incorrectes en fer_viatge
+//Error aritmètic en efectuar_viatge
+
+///Públics passats!!! :)
+
+/Divideixo entre 0 a modificar_prod
+//condicionals
