@@ -29,3 +29,5 @@
 
 /Divideixo entre 0 a modificar_prod
 //condicionals
+
+
