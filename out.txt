@@ -171,7 +171,7 @@ error: no existe la ciudad
 1
 #eb
 6 10 2 12
-barna
+borna
 #leer_rio
 #escribir_ciudad barna
 0 0
@@ -211,7 +211,7 @@ barna
 8
 #eb
 3 10 4 10
-darna
+dirna
 #escribir_ciudad darna
 1 15 8
 2 10 10
@@ -234,17 +234,16 @@ darna
 288 491
 #escribir_barco
 3 10 4 10
-darna
+dirna
 #mb
 #eb
 8 10 9 10
-darna
+dirna
 #hv
 0
 #eb
 8 10 9 10
-darna
-darna
+dirna
 #escribir_ciudad darna
 1 15 8
 2 10 10
@@ -270,9 +269,8 @@ darna
 10
 #escribir_barco
 2 10 6 10
-darna
-darna
-darna
+dirna
+derna
 #escribir_ciudad darna
 1 15 8
 2 10 10

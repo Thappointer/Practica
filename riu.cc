@@ -378,7 +378,7 @@
         else{
             while(not op.empty()){
                 if(not op.front().null)
-                    last_op.idc = op.front().idc;
+                    last_op = op.front();
                 int comp = op.front().s_comp; 
                 if(comp > 0){
                     int nec = mapa_ciutats[last_op.idc].necessitats(id_buy);
