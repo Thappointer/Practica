@@ -316,30 +316,6 @@
                         check_right.pop();
                     else next = false;
                 }
-                // stack <operacio> check_left; 
-                // queue <operacio> left_aux = left.operacions;
-                // while(not left_aux.empty()){
-                //     check_left.push(left_aux.front());
-                //     left_aux.pop();
-                // }
-                // bool next = true;
-                // while(next and not check_left.empty()){
-                //     if(check_left.top().s_comp == 0 and check_left.top().s_vend == 0)
-                //         check_left.pop();
-                //     else next = false;
-                // }
-                // stack <operacio> check_right;
-                // queue <operacio> right_aux = right.operacions; 
-                // while(not right_aux.empty()){
-                //     check_right.push(right_aux.front());
-                //     right_aux.pop();
-                // }
-                // next = true;
-                // while(next and not check_right.empty()){
-                //     if(check_right.top().s_comp == 0 and check_right.top().s_vend == 0)
-                //         check_right.pop();
-                //     else next = false;
-                // }
                 if(check_left.size() < check_right.size()){
                     r = left;
                 }
@@ -357,7 +333,7 @@
         else if(is_left and not is_right){
             r = left;
         }
-        operacio op(compres, vendes, idc); //fer un bool actiu en op/ null de operacio per ex.
+        operacio op(compres, vendes, idc);
         if(compres == 0 and vendes == 0){
             op.null = true;
         }
