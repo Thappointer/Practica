@@ -17,6 +17,8 @@ struct operacio
     id_ciutat idc;
     bool null;
     operacio(){
+        s_comp = 0;
+        s_vend = 0;
         null = false;
     }
     operacio(int comp, int vend, id_ciutat ct)

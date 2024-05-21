@@ -358,6 +358,9 @@
             r = left;
         }
         operacio op(compres, vendes, idc); //fer un bool actiu en op/ null de operacio per ex.
+        if(compres == 0 and vendes == 0){
+            op.null = true;
+        }
         int resultat = compres + vendes;
         r.trans += resultat;
         r.operacions.push(op);
@@ -374,7 +377,8 @@
         }
         else{
             while(not op.empty()){
-                last_op.idc = op.front().idc;
+                if(not op.front().null)
+                    last_op.idc = op.front().idc;
                 int comp = op.front().s_comp; 
                 if(comp > 0){
                     int nec = mapa_ciutats[last_op.idc].necessitats(id_buy);
@@ -393,6 +397,9 @@
                 }
                 op.pop();
             }
+        }
+        if(last_op.s_comp == 0 and last_op.s_vend == 0){
+            last_op.null = true;
         }
         return last_op;
     }
