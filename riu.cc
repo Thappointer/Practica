@@ -220,12 +220,28 @@
 
                     nec = iter1->second.need;
                     hav = (iter1->second.have)-pass;
+                    if(hav == 0){
+                        pes = vector_producte[id].consultar_pes();
+                        vol = vector_producte[id].consultar_volum();
+                    }
+                    else{
+                        pes = hav*vector_producte[id].consultar_pes();
+                        vol = hav*vector_producte[id].consultar_volum();
+                    }
                     pes = hav*vector_producte[id].consultar_pes();
                     vol = hav*vector_producte[id].consultar_volum();
                     ct1.mod_prod(pes, vol, nec, hav, id);
                     
                     nec = iter2->second.need;
                     hav = (iter2->second.have)+pass;
+                    if(hav == 0){
+                        pes = vector_producte[id].consultar_pes();
+                        vol = vector_producte[id].consultar_volum();
+                    }
+                    else{
+                        pes = hav*vector_producte[id].consultar_pes();
+                        vol = hav*vector_producte[id].consultar_volum();
+                    }
                     pes = hav*vector_producte[id].consultar_pes();
                     vol = hav*vector_producte[id].consultar_volum();
                     ct2.mod_prod(pes, vol, nec, hav, id);
