@@ -1,10 +1,12 @@
 else cout << "error: no existe la ciudad" << endl;
-tar -cvf skibidi.tar riu.hh riu.cc ciutat.hh ciutat.cc inventari.hh inventari.cc vaixell.hh vaixell.cc producte.hh producte.cc program.cc Makefile
+tar -cvf practica.tar riu.hh riu.cc ciutat.hh ciutat.cc inventari.hh inventari.cc vaixell.hh vaixell.cc producte.hh producte.cc program.cc Makefile
+diff -y out.txt sample/sample.cor
 diff out.txt sample/sample.cor
 ./program.exe < sample/sample.inp > out.txt
 p2++ -o output.exe program.cc riu.cc ciutat.cc producte.cc vaixell.cc inventari.cc && ./output.exe
+FLAGS = -D_JUDGE_ -D_GLIBCXX_DEBUG -O2 -Wall -Wextra -Werror -Wno-sign-compare -std=c++11 -fno-extended-identifiers
 
-sample: fin! :) (216)
+sample: fin! :)
 7
 12 5
 6 13

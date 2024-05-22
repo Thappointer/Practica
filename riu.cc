@@ -25,6 +25,7 @@
             llegir_riu_aux(right);
             t = BinTree <id_ciutat> (s, left, right);
         }
+        else t = BinTree <id_ciutat>();
     }
 
     void Riu::llegir_riu()
@@ -38,9 +39,7 @@
     {
         if(verificar_ciutat(idc)){
             id_producte idp;
-            if(not mapa_ciutats[idc].empty()){
-                mapa_ciutats[idc].clear();
-            }
+            mapa_ciutats[idc].clear();
             for(int i = 0; i < nump; ++i){
                 cin >> idp;
                 if(verificar_producte(idp)){
@@ -57,7 +56,7 @@
             cout << "error: no existe la ciudad" << endl;
             string bin;
             for(int i = 0; i < nump; ++i){
-                getline(cin, bin);
+                getline(cin, bin); //suposa que el format de input és id, hav, nec
             }
         }
     }
@@ -233,6 +232,7 @@
 
     void Riu::redistribuir_aux(BinTree <id_ciutat> t)
     {
+        if(t.empty()) return;
         if(not t.left().empty()){
             comerciar(t.value(), t.left().value());
             redistribuir_aux(t.left());
@@ -245,14 +245,7 @@
 
     void Riu::redistribuir()
     {
-        if(not arbre_ciutats.left().empty()){
-            comerciar(arbre_ciutats.value(), arbre_ciutats.left().value());
-            redistribuir_aux(arbre_ciutats.left());
-        }
-        if(not arbre_ciutats.right().empty()){
-            comerciar(arbre_ciutats.value(), arbre_ciutats.right().value());
-            redistribuir_aux(arbre_ciutats.right());
-        }
+        redistribuir_aux(arbre_ciutats);
     }
 
     ruta Riu::triar_ruta(BinTree <id_ciutat> t, int buy, int sell)
@@ -266,7 +259,7 @@
         manca = mapa_ciutats[idc].manca(id_sell); 
         int compres = buy-(buy-excedent);
         int vendes = sell-(sell-manca);
-
+        int resultat = compres + vendes;
         ruta r;
         buy -= excedent;
         if(buy < 0){
@@ -283,6 +276,7 @@
         ruta left(r.buy, r.sell), right(r.buy, r.sell);
         bool is_left, is_right;
         is_left = is_right = false;
+        //posar tot sota if(finished)
         if(not t.left().empty() and not finished){
             left = triar_ruta(t.left(), r.buy, r.sell);
             is_left = true;
@@ -302,14 +296,14 @@
                 queue <operacio> check_left = left.operacions;
                 bool next = true;
                 while(not check_left.empty() and next){
-                    if(check_left.front().s_comp == 0 and check_left.front().s_vend == 0)
+                    if(check_left.front().null)
                         check_left.pop();
                     else next = false;
                 }
                 queue <operacio> check_right = right.operacions;
                 next = true;
                 while(not check_right.empty() and next){
-                    if(check_right.front().s_comp == 0 and check_right.front().s_vend == 0)
+                    if(check_right.front().null)
                         check_right.pop();
                     else next = false;
                 }
@@ -334,7 +328,6 @@
         if(compres == 0 and vendes == 0){
             op.null = true;
         }
-        int resultat = compres + vendes;
         r.trans += resultat;
         r.operacions.push(op);
         return r;
@@ -345,10 +338,7 @@
         operacio last_op;
         int id_buy = boat.consultar_id_comp();
         int id_sell = boat.consultar_id_vend();
-        if(op.empty()){
-            last_op.null = true;
-        }
-        else{
+        bool empty = op.empty();
         while(not op.empty()){
             if(not op.front().null)
                 last_op = op.front();
@@ -369,9 +359,9 @@
                 mapa_ciutats[last_op.idc].mod_prod(pes, vol, nec, hav, id_sell);
             }
             op.pop();
-            }
         }
-        if(last_op.s_comp == 0 and last_op.s_vend == 0){
+        bool has_traded = not (last_op.s_comp == 0 and last_op.s_vend == 0);
+        if(not has_traded or empty){
             last_op.null = true;
         }
         return last_op;
@@ -385,9 +375,9 @@
             buy = boat.consultar_compres();
             sell = boat.consultar_vendes();
             r = triar_ruta(arbre_ciutats, buy, sell);
-            operacio op = efectuar_viatge(r.operacions);
-            if(not op.null){
-                boat.fer_viatge(op.idc);
+            operacio last_op = efectuar_viatge(r.operacions);
+            if(not last_op.null){
+                boat.fer_viatge(last_op.idc);
             }
         }
         cout << r.trans << endl; 
@@ -418,7 +408,7 @@
 
     bool Riu::verificar_producte(id_producte id) const
     {
-        if(id > max_id or id < 0) return false;
+        if(id > max_id or id < 1) return false;
         else return true;
     }
 
