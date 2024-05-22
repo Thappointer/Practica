@@ -182,13 +182,12 @@
                 int exc1, exc2;
                 exc1 = iter1->second.have - iter1->second.need;
                 exc2 = iter2->second.have - iter2->second.need;
-                if(exc2 >= 0 and exc1 < 0){
+                if(exc1 < 0 and exc2 >= 0){
                     int pass = exc2-(exc2+exc1);
                     if(exc1+exc2 < 0){
                         pass = exc2;
                     }
                     int pes, vol, nec, hav;
-                    
                     nec = iter1->second.need;
                     hav = (iter1->second.have)+pass;
                     pes = hav*vector_producte[id].consultar_pes();
@@ -199,10 +198,9 @@
                     hav = (iter2->second.have)-pass;
                     pes = hav*vector_producte[id].consultar_pes();
                     vol = hav*vector_producte[id].consultar_volum();
-                    nec = ct2.necessitats(id);
                     ct2.mod_prod(pes, vol, nec, hav, id);
                 }
-                else if(exc2 < 0 and exc1 >= 0){
+                else if(exc1 >= 0 and exc2 < 0){
                     int pass = exc1-(exc1+exc2);
                     if(exc1+exc2 < 0){
                         pass = exc1;
@@ -219,7 +217,6 @@
                     hav = (iter2->second.have)+pass;
                     pes = hav*vector_producte[id].consultar_pes();
                     vol = hav*vector_producte[id].consultar_volum();
-                    nec = ct2.necessitats(id);
                     ct2.mod_prod(pes, vol, nec, hav, id);
                 }
                 ++iter1;
@@ -230,7 +227,7 @@
             }
             else{
                 ++iter2;
-            } 
+            }
         }
     }
 
