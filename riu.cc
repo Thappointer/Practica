@@ -181,7 +181,7 @@
                 int exc1, exc2;
                 exc1 = iter1->second.have - iter1->second.need;
                 exc2 = iter2->second.have - iter2->second.need;
-                if(exc1 < 0 and exc2 >= 0){
+                if(exc1 < 0 and exc2 > 0){
                     int pass = exc2-(exc2+exc1);
                     if(exc1+exc2 < 0){
                         pass = exc2;
@@ -189,17 +189,29 @@
                     int pes, vol, nec, hav;
                     nec = iter1->second.need;
                     hav = (iter1->second.have)+pass;
-                    pes = hav*vector_producte[id].consultar_pes();
-                    vol = hav*vector_producte[id].consultar_volum();
+                    if(hav == 0){
+                        pes = vector_producte[id].consultar_pes();
+                        vol = vector_producte[id].consultar_volum();
+                    }
+                    else{
+                        pes = hav*vector_producte[id].consultar_pes();
+                        vol = hav*vector_producte[id].consultar_volum();
+                    }
                     ct1.mod_prod(pes, vol, nec, hav, id);
                     
                     nec = iter2->second.need;
                     hav = (iter2->second.have)-pass;
-                    pes = hav*vector_producte[id].consultar_pes();
-                    vol = hav*vector_producte[id].consultar_volum();
+                    if(hav == 0){
+                        pes = vector_producte[id].consultar_pes();
+                        vol = vector_producte[id].consultar_volum();
+                    }
+                    else{
+                        pes = hav*vector_producte[id].consultar_pes();
+                        vol = hav*vector_producte[id].consultar_volum();
+                    }
                     ct2.mod_prod(pes, vol, nec, hav, id);
                 }
-                else if(exc1 >= 0 and exc2 < 0){
+                else if(exc1 > 0 and exc2 < 0){
                     int pass = exc1-(exc1+exc2);
                     if(exc1+exc2 < 0){
                         pass = exc1;
@@ -343,19 +355,32 @@
             if(not op.front().null)
                 last_op = op.front();
             int comp = op.front().s_comp; 
+            int nec, hav, pes, vol;
             if(comp > 0){
-                int nec = mapa_ciutats[last_op.idc].necessitats(id_buy);
-                int hav = mapa_ciutats[last_op.idc].propietat(id_buy)-comp;
-                int pes = vector_producte[id_buy].consultar_pes()*hav;
-                int vol = vector_producte[id_buy].consultar_volum()*hav;
+                nec = mapa_ciutats[last_op.idc].necessitats(id_buy);
+                hav = mapa_ciutats[last_op.idc].propietat(id_buy)-comp;
+                if(hav == 0){
+                    pes = vector_producte[id_buy].consultar_pes();
+                    vol = vector_producte[id_buy].consultar_volum();
+                }
+                else{
+                    pes = vector_producte[id_buy].consultar_pes()*hav;
+                    vol = vector_producte[id_buy].consultar_volum()*hav;
+                }
                 mapa_ciutats[last_op.idc].mod_prod(pes, vol, nec, hav, id_buy);
             }
             int vend = op.front().s_vend; 
             if(vend > 0){
-                int nec = mapa_ciutats[last_op.idc].necessitats(id_sell);
-                int hav = mapa_ciutats[last_op.idc].propietat(id_sell)+vend;
-                int pes = vector_producte[id_sell].consultar_pes()*hav;
-                int vol = vector_producte[id_sell].consultar_volum()*hav;
+                nec = mapa_ciutats[last_op.idc].necessitats(id_sell);
+                hav = mapa_ciutats[last_op.idc].propietat(id_sell)+vend;
+                if(hav == 0){
+                    pes = vector_producte[id_sell].consultar_pes();
+                    vol = vector_producte[id_sell].consultar_volum();
+                }
+                else{
+                    pes = vector_producte[id_sell].consultar_pes()*hav;
+                    vol = vector_producte[id_sell].consultar_volum()*hav;
+                }
                 mapa_ciutats[last_op.idc].mod_prod(pes, vol, nec, hav, id_sell);
             }
             op.pop();
