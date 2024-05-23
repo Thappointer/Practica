@@ -194,12 +194,12 @@ borna
 #re
 #escribir_ciudad darna
 1 15 8
-2 13 10
-258 244
+2 10 10
+240 205
 #escribir_ciudad derna
-2 10 3
+2 13 3
 3 13 20
-112 143
+130 182
 #escribir_ciudad dirna
 3 5 5
 4 2 10
@@ -220,12 +220,12 @@ borna
 dirna
 #escribir_ciudad darna
 1 15 8
-2 13 10
-258 244
+2 10 10
+240 205
 #escribir_ciudad derna
-2 10 3
+2 13 3
 3 13 20
-112 143
+130 182
 #escribir_ciudad dirna
 3 5 5
 4 10 10
@@ -252,12 +252,12 @@ dirna
 dirna
 #escribir_ciudad darna
 1 15 8
-2 13 10
-258 244
+2 10 10
+240 205
 #escribir_ciudad derna
-2 10 3
+2 13 3
 3 13 20
-112 143
+130 182
 #escribir_ciudad dirna
 3 5 5
 4 10 10
@@ -276,7 +276,7 @@ dirna
 #escribir_barco
 2 10 6 10
 dirna
-darna
+derna
 #escribir_ciudad darna
 1 15 8
 2 10 10
