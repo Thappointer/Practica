@@ -186,7 +186,7 @@
                 if(diferencia1 < 0 and diferencia2 > 0){
                     oferta = diferencia2;
                     demanda = -diferencia1;
-                    int pass = oferta-demanda;
+                    int pass = oferta-(oferta-demanda);
                     if(demanda > oferta){
                         pass = oferta;
                     }
@@ -217,7 +217,7 @@
                 else if(diferencia1 > 0 and diferencia2 < 0){
                     oferta = diferencia1;
                     demanda = -diferencia2;
-                    int pass = oferta-demanda;
+                    int pass = oferta-(oferta-demanda);
                     if(demanda > oferta){
                         pass = oferta;
                     }

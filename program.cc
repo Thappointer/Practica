@@ -17,7 +17,7 @@ int main()
     while (s != "fin")
     {
         if(s == "//"){
-            cin.ignore();
+            getline(cin, s);
         }
         else if(s == "lr" or s == "leer_rio"){
             cout << '#' << s << endl;
