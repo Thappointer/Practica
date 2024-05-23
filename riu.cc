@@ -173,20 +173,23 @@
         auto end1 = ct1.consultar_final();
         auto iter2 = ct2.consultar_inici();
         auto end2 = ct2.consultar_final();
+        int id1, id2;
         while(iter1 != end1 and iter2 != end2){
-            int id1 = iter1->first;
-            int id2 = iter2->first;
+            id1 = iter1->first;
+            id2 = iter2->first;
             if(id1 == id2){
                 int id = id1;
-                int exc1, exc2;
-                exc1 = iter1->second.have - iter1->second.need;
-                exc2 = iter2->second.have - iter2->second.need;
-                if(exc1 < 0 and exc2 > 0){
+                int oferta, demanda;
+                int diferencia1 = iter1->second.have - iter1->second.need;
+                int diferencia2 = iter2->second.have - iter2->second.need;
+                int pes, vol, nec, hav;
+                if(diferencia1 < 0 and diferencia2 > 0){
+                    oferta = diferencia2;
+                    demanda = -diferencia1;
                     int pass = exc2-(exc2+exc1);
                     if(exc1+exc2 < 0){
                         pass = exc2;
                     }
-                    int pes, vol, nec, hav;
                     nec = iter1->second.need;
                     hav = (iter1->second.have)+pass;
                     if(hav == 0){
@@ -211,13 +214,13 @@
                     }
                     ct2.mod_prod(pes, vol, nec, hav, id);
                 }
-                else if(exc1 > 0 and exc2 < 0){
+                else if(diferencia1 > 0 and diferencia2 < 0){
+                    oferta = diferencia1;
+                    demanda = -diferencia2;
                     int pass = exc1-(exc1+exc2);
                     if(exc1+exc2 < 0){
                         pass = exc1;
                     }
-                    int pes, vol, nec, hav;
-
                     nec = iter1->second.need;
                     hav = (iter1->second.have)-pass;
                     if(hav == 0){
@@ -287,6 +290,7 @@
         manca = mapa_ciutats[idc].manca(id_sell); 
         int compres = buy-(buy-excedent);
         int vendes = sell-(sell-manca);
+        operacio op(compres, vendes, idc);
         int resultat = compres + vendes;
         ruta r;
         buy -= excedent;
@@ -352,7 +356,6 @@
         else if(is_left and not is_right){
             r = left;
         }
-        operacio op(compres, vendes, idc);
         if(compres == 0 and vendes == 0){
             op.null = true;
         }
