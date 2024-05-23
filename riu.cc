@@ -186,9 +186,9 @@
                 if(diferencia1 < 0 and diferencia2 > 0){
                     oferta = diferencia2;
                     demanda = -diferencia1;
-                    int pass = exc2-(exc2+exc1);
-                    if(exc1+exc2 < 0){
-                        pass = exc2;
+                    int pass = oferta-demanda;
+                    if(demanda > oferta){
+                        pass = oferta;
                     }
                     nec = iter1->second.need;
                     hav = (iter1->second.have)+pass;
@@ -217,9 +217,9 @@
                 else if(diferencia1 > 0 and diferencia2 < 0){
                     oferta = diferencia1;
                     demanda = -diferencia2;
-                    int pass = exc1-(exc1+exc2);
-                    if(exc1+exc2 < 0){
-                        pass = exc1;
+                    int pass = oferta-demanda;
+                    if(demanda > oferta){
+                        pass = oferta;
                     }
                     nec = iter1->second.need;
                     hav = (iter1->second.have)-pass;
