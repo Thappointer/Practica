@@ -334,45 +334,51 @@
         operacio last_op;
         int id_buy = boat.consultar_id_comp();
         int id_sell = boat.consultar_id_vend();
-        bool empty = op.empty();
-        while(not op.empty()){
-            if(not op.front().null)
-                last_op = op.front();
-            int comp = op.front().s_comp; 
-            int nec, hav, pes, vol;
-            if(comp > 0){
-                nec = mapa_ciutats[last_op.idc].necessitats(id_buy);
-                hav = mapa_ciutats[last_op.idc].propietat(id_buy)-comp;
-                if(hav == 0){
-                    pes = vector_producte[id_buy].consultar_pes();
-                    vol = vector_producte[id_buy].consultar_volum();
+        if(not op.empty()){
+            bool found = false;
+            while(not op.empty()){
+                if(not op.front().null){
+                    if(not found){
+                        last_op = op.front();
+                        found = true;
+                    }
+                    int comp = op.front().s_comp; 
+                    int nec, hav, pes, vol;
+                    if(comp > 0){
+                        nec = mapa_ciutats[op.front().idc].necessitats(id_buy);
+                        hav = mapa_ciutats[op.front().idc].propietat(id_buy)-comp;
+                        if(hav == 0){
+                            pes = vector_producte[id_buy].consultar_pes();
+                            vol = vector_producte[id_buy].consultar_volum();
+                        }
+                        else{
+                            pes = vector_producte[id_buy].consultar_pes()*hav;
+                            vol = vector_producte[id_buy].consultar_volum()*hav;
+                        }
+                        mapa_ciutats[op.front().idc].mod_prod(pes, vol, nec, hav, id_buy);
+                    }
+                    int vend = op.front().s_vend; 
+                    if(vend > 0){
+                        nec = mapa_ciutats[op.front().idc].necessitats(id_sell);
+                        hav = mapa_ciutats[op.front().idc].propietat(id_sell)+vend;
+                        if(hav == 0){
+                            pes = vector_producte[id_sell].consultar_pes();
+                            vol = vector_producte[id_sell].consultar_volum();
+                        }
+                        else{
+                            pes = vector_producte[id_sell].consultar_pes()*hav;
+                            vol = vector_producte[id_sell].consultar_volum()*hav;
+                        }
+                        mapa_ciutats[op.front().idc].mod_prod(pes, vol, nec, hav, id_sell);
+                    }
                 }
-                else{
-                    pes = vector_producte[id_buy].consultar_pes()*hav;
-                    vol = vector_producte[id_buy].consultar_volum()*hav;
-                }
-                mapa_ciutats[last_op.idc].mod_prod(pes, vol, nec, hav, id_buy);
+                op.pop();
             }
-            int vend = op.front().s_vend; 
-            if(vend > 0){
-                nec = mapa_ciutats[last_op.idc].necessitats(id_sell);
-                hav = mapa_ciutats[last_op.idc].propietat(id_sell)+vend;
-                if(hav == 0){
-                    pes = vector_producte[id_sell].consultar_pes();
-                    vol = vector_producte[id_sell].consultar_volum();
-                }
-                else{
-                    pes = vector_producte[id_sell].consultar_pes()*hav;
-                    vol = vector_producte[id_sell].consultar_volum()*hav;
-                }
-                mapa_ciutats[last_op.idc].mod_prod(pes, vol, nec, hav, id_sell);
+            if(not found){
+                last_op.null = true;
             }
-            op.pop();
         }
-        bool has_traded = not (last_op.s_comp == 0 and last_op.s_vend == 0);
-        if(not has_traded or empty){
-            last_op.null = true;
-        }
+        else last_op.null = true;
         return last_op;
     }
 
