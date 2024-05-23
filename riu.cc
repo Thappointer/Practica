@@ -182,72 +182,52 @@
                 int oferta, demanda;
                 int diferencia1 = iter1->second.have - iter1->second.need;
                 int diferencia2 = iter2->second.have - iter2->second.need;
-                int pes, vol, nec, hav;
+                int pes_sub, pes_new, vol_sub, vol_new;
                 if(diferencia1 < 0 and diferencia2 > 0){
                     oferta = diferencia2;
-                    demanda = -diferencia1;
-                    int pass = oferta-(oferta-demanda);
+                    demanda = (-1)*diferencia1;
+                    int pass;
                     if(demanda > oferta){
                         pass = oferta;
                     }
-                    nec = iter1->second.need;
-                    hav = (iter1->second.have)+pass;
-                    if(hav == 0){
-                        pes = vector_producte[id].consultar_pes();
-                        vol = vector_producte[id].consultar_volum();
-                    }
-                    else{
-                        pes = hav*vector_producte[id].consultar_pes();
-                        vol = hav*vector_producte[id].consultar_volum();
-                    }
-                    ct1.mod_prod(pes, vol, nec, hav, id);
-                    
-                    nec = iter2->second.need;
-                    hav = (iter2->second.have)-pass;
-                    if(hav == 0){
-                        pes = vector_producte[id].consultar_pes();
-                        vol = vector_producte[id].consultar_volum();
-                    }
-                    else{
-                        pes = hav*vector_producte[id].consultar_pes();
-                        vol = hav*vector_producte[id].consultar_volum();
-                    }
-                    ct2.mod_prod(pes, vol, nec, hav, id);
+                    else pass = demanda;
+
+                    pes_sub = vector_producte[id].consultar_pes()*iter1->second.have;
+                    vol_sub = vector_producte[id].consultar_volum()*iter1->second.have;
+                    iter1->second.have += pass;
+                    pes_new = vector_producte[id].consultar_pes()*iter1->second.have;
+                    vol_new = vector_producte[id].consultar_volum()*iter1->second.have;
+                    ct1.new_data(pes_sub, pes_new, vol_sub, vol_new);
+
+                    pes_sub = vector_producte[id].consultar_pes()*iter2->second.have;
+                    vol_sub = vector_producte[id].consultar_volum()*iter2->second.have;
+                    iter2->second.have -= pass;
+                    pes_new = vector_producte[id].consultar_pes()*iter2->second.have;
+                    vol_new = vector_producte[id].consultar_volum()*iter2->second.have;
+                    ct2.new_data(pes_sub, pes_new, vol_sub, vol_new);
                 }
                 else if(diferencia1 > 0 and diferencia2 < 0){
                     oferta = diferencia1;
-                    demanda = -diferencia2;
-                    int pass = oferta-(oferta-demanda);
+                    demanda = (-1)*diferencia2;
+                    int pass;
                     if(demanda > oferta){
                         pass = oferta;
                     }
-                    nec = iter1->second.need;
-                    hav = (iter1->second.have)-pass;
-                    if(hav == 0){
-                        pes = vector_producte[id].consultar_pes();
-                        vol = vector_producte[id].consultar_volum();
-                    }
-                    else{
-                        pes = hav*vector_producte[id].consultar_pes();
-                        vol = hav*vector_producte[id].consultar_volum();
-                    }
-                    pes = hav*vector_producte[id].consultar_pes();
-                    vol = hav*vector_producte[id].consultar_volum();
-                    ct1.mod_prod(pes, vol, nec, hav, id);
+                    else pass = demanda;
                     
-                    nec = iter2->second.need;
-                    hav = (iter2->second.have)+pass;
-                    if(hav == 0){
-                        pes = vector_producte[id].consultar_pes();
-                        vol = vector_producte[id].consultar_volum();
-                    }
-                    else{
-                        pes = hav*vector_producte[id].consultar_pes();
-                        vol = hav*vector_producte[id].consultar_volum();
-                    }
-                    pes = hav*vector_producte[id].consultar_pes();
-                    vol = hav*vector_producte[id].consultar_volum();
-                    ct2.mod_prod(pes, vol, nec, hav, id);
+                    pes_sub = vector_producte[id].consultar_pes()*iter1->second.have;
+                    vol_sub = vector_producte[id].consultar_volum()*iter1->second.have;
+                    iter1->second.have -= pass;
+                    pes_new = vector_producte[id].consultar_pes()*iter1->second.have;
+                    vol_new = vector_producte[id].consultar_volum()*iter1->second.have;
+                    ct1.new_data(pes_sub, pes_new, vol_sub, vol_new);
+
+                    pes_sub = vector_producte[id].consultar_pes()*iter2->second.have;
+                    vol_sub = vector_producte[id].consultar_volum()*iter2->second.have;
+                    iter2->second.have += pass;
+                    pes_new = vector_producte[id].consultar_pes()*iter2->second.have;
+                    vol_new = vector_producte[id].consultar_volum()*iter2->second.have;
+                    ct2.new_data(pes_sub, pes_new, vol_sub, vol_new);
                 }
                 ++iter1;
                 ++iter2;
@@ -266,12 +246,12 @@
         if(t.empty()) return;
         if(not t.left().empty()){
             comerciar(t.value(), t.left().value());
-            redistribuir_aux(t.left());
         }
         if(not t.right().empty()){
             comerciar(t.value(), t.right().value());
-            redistribuir_aux(t.right());
         }
+        redistribuir_aux(t.left());
+        redistribuir_aux(t.right());
     }
 
     void Riu::redistribuir()
@@ -281,43 +261,38 @@
 
     ruta Riu::triar_ruta(BinTree <id_ciutat> t, int buy, int sell)
     {
-        int excedent, manca;
-        excedent = manca = 0;
         int id_buy = boat.consultar_id_comp();
         int id_sell = boat.consultar_id_vend();
         id_ciutat idc = t.value();
+        int excedent, manca;
         excedent = mapa_ciutats[idc].excedent(id_buy);
         manca = mapa_ciutats[idc].manca(id_sell); 
-        int compres = buy-(buy-excedent);
-        int vendes = sell-(sell-manca);
+        int compres;
+        if(excedent > buy){
+            compres = buy;
+        } 
+        else compres = excedent;
+        buy -= compres;
+        int vendes;
+        if(manca > sell){
+            vendes = sell;
+        } 
+        else vendes = manca; 
+        sell -= vendes;
         operacio op(compres, vendes, idc);
+        if(compres == 0 and vendes == 0){
+            op.null = true;
+        }
         int resultat = compres + vendes;
         ruta r;
-        buy -= excedent;
-        if(buy < 0){
-            buy = 0;
-        }
         r.buy = buy;
-        sell -= manca; 
-        if(sell < 0){
-            sell = 0;
-        }
         r.sell = sell;
-
-        bool finished = ((buy == 0) and (sell == 0));
-        ruta left(r.buy, r.sell), right(r.buy, r.sell);
-        bool is_left, is_right;
-        is_left = is_right = false;
-        //posar tot sota if(finished)
-        if(not t.left().empty() and not finished){
-            left = triar_ruta(t.left(), r.buy, r.sell);
-            is_left = true;
-        }
-        if(not t.right().empty() and not finished){
-            right = triar_ruta(t.right(), r.buy, r.sell);
-            is_right = true;
-        }
-        if(is_left and is_right){
+        if(r.buy != 0 or r.sell != 0){
+            ruta left, right;
+            if(not t.left().empty() or not t.right().empty()){
+                left = triar_ruta(t.left(), r.buy, r.sell);
+                right = triar_ruta(t.right(), r.buy, r.sell);
+            }
             if(left.trans > right.trans){
                 r = left;
             }
@@ -325,15 +300,16 @@
                 r = right;
             }
             else{
+                bool next;
+                next = true;
                 queue <operacio> check_left = left.operacions;
-                bool next = true;
                 while(not check_left.empty() and next){
                     if(check_left.front().null)
                         check_left.pop();
                     else next = false;
                 }
-                queue <operacio> check_right = right.operacions;
                 next = true;
+                queue <operacio> check_right = right.operacions;
                 while(not check_right.empty() and next){
                     if(check_right.front().null)
                         check_right.pop();
@@ -345,19 +321,8 @@
                 else if(check_left.size() > check_right.size()){
                     r = right;
                 }
-                else{
-                    r = left;
-                }
+                else r = left;
             }
-        }
-        else if(not is_left and is_right){
-            r = right;
-        }
-        else if(is_left and not is_right){
-            r = left;
-        }
-        if(compres == 0 and vendes == 0){
-            op.null = true;
         }
         r.trans += resultat;
         r.operacions.push(op);

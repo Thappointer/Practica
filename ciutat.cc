@@ -50,6 +50,14 @@
         inv.erase_prod_inventari(id);
     }
 
+    void Ciutat::new_data(int pes_sub, int pes_new, int vol_sub, int vol_new)
+    {
+        pes_total -= pes_sub;
+        pes_total += pes_new;
+        vol_total -= vol_sub;
+        vol_total += vol_new;
+    }
+
 //Consultors
 
     map <int, prod>::iterator Ciutat::consultar_inici()

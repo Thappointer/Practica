@@ -31,7 +31,7 @@ struct operacio
 };
 
 
-/** @brief Struct que conté característiques d'una ruta.
+/** @brief Struct que conté característiques d'una ruta. //buy i sell potser no fan falta.
 *   
 *   Conté:
 * - Nombre total de transaccions. 
@@ -90,11 +90,12 @@ class Riu{
     */
     Vaixell boat;
 
-    /** @brief Modifica recursivament l'arbre del paràmetre explícit a partir de la sentència de lectura, en preordre.
-     * @pre cert
-     * @post El paràmetre explícit es modifica en preordre a partir dels identificadors llegits pel canal estàndard d'escriptura,
-     * sempre i quan aquest identificador sigui diferent a "#".
-     * 
+    /** @brief Llegeix els identificadors de les ciutats, en ordre de l'arbre, pel canal estàndard d'entrada. 
+     * També esborra les ciutats i els viatges del vaixell.
+     * @pre La seqüència de lectura del riu que s'introdueix pel canal estàndard d'entrada fa servir el caràcter '#' per indicar
+     * els naixements del riu. 
+     * @post A partir de la seqüència llegida pel canal estàndard d'entrada, es modifica en preordre l'arbre del paràmetre implícit,
+     * de manera que la seva estructura es substitueix per la de la seqüència. 
     */
     void llegir_riu_aux(BinTree <id_ciutat> &t);
 
@@ -153,20 +154,25 @@ class Riu{
     
     //Modificadors
 
-    /** @brief Llegeix els identificadors de les ciutats, en ordre de l'arbre, pel canal estàndard d'entrada, també neteja les ciutats i el vaixell.
-     * @pre S'introdueix pel canal d'entrada una seqüència d'identificadors de ciutat, de manera que un 
-     * arbre binari és representable. 
-     * @post La seqüència llegida pel canal estàndard d'entrada és assignada a arbre_ciutats 
+    /** @brief Llegeix els identificadors de les ciutats, en ordre de l'arbre, pel canal estàndard d'entrada. 
+     * També esborra les ciutats i els viatges del vaixell.
+     * @pre La seqüència de lectura del riu que s'introdueix pel canal estàndard d'entrada fa servir el caràcter '#' per indicar
+     * els naixements del riu. 
+     * @post A partir de la seqüència llegida pel canal estàndard d'entrada, es modifica l'arbre del paràmetre implícit,
+     * de manera que la seva estructura es substitueix per la de la seqüència. 
+     * També s'esborren els elements del mapa de ciutats del paràmetre implícit així com la cua de viatges del seu vaixell.
     */  
     void llegir_riu();
 
     /** @brief Llegeix l'identificador d'una ciutat i, si aquesta existeix, un inventari amb els seus atributs 
      * corresponents.
-     * @pre S'introdueix pel canal estàndard d'entrada un identificador de ciutat, el tamany d'un inventari 
-     * i els seus atributs corresponents. El tamany és major o igual que zero, el nombre d'elements en possessió
-     * de cada producte és major o igual que zero i el nombre d'elements que es necessiten de cada producte és 
+     * @pre S'introdueix pel canal estàndard d'entrada un identificador de ciutat i el tamany d'un inventari, indicant
+     * el nombre de productes diferents. Cada un d'aquests productes pertanyen al comerç del riu. 
+     * Per cada producte diferent, es llegeixen el seu identificador, les unitats en propietat que té la ciutat i les que es necessiten.
+     * L'identificador és major o igual que 1 i menor o igual que el major identificador de producte.
+     * El nombre d'elements en possessió de cada producte és major o igual que zero i el nombre d'elements que es necessiten de cada producte és 
      * major estricte que zero.
-     * @post En cas de que la ciutat estigui en el mapa de ciutats, a aquesta se li assignarà l'inventari  
+     * @post 
     */
     void llegir_inventari(string id, int nump);
 

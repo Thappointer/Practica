@@ -70,6 +70,15 @@ class Ciutat{
     */
     void erase_prod(int pes, int vol, int id);
 
+    /** @brief Modifica el pes i volum totals en base a noves dades d'un producte.
+     * @pre Els quatre paràmetres explícits són enters no negatius.
+     * Concretament, pes_sub és el pès en conjunt antic del producte, pes_new és el seu pès en conjunt actualitzat,
+     * vol_sub és el volum en conjunt antic del producte i vol_new és el seu volum en conjunt actualitzat.
+     * @post S'extreu del pès total el pès en conjunt antic del producte i s'hi afegeix el pès en conjunt actualitzat.
+     * També s'extreu del volum total el volum en conjunt antic del producte i s'hi afegeix el volum en conjunt actualitzat.
+    */
+    void new_data(int pes_sub, int pes_new, int vol_sub, int vol_new);
+
     //Consultors
 
     /** @brief Retorna la posició inicial del mapa de l'inventari.
