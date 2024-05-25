@@ -56,7 +56,7 @@
             cout << "error: no existe la ciudad" << endl;
             string bin;
             for(int i = 0; i < nump; ++i){
-                getline(cin, bin); //suposa que el format de input és id, hav, nec
+                getline(cin, bin);
             }
         }
     }
@@ -285,13 +285,11 @@
         }
         int resultat = compres + vendes;
         ruta r;
-        r.buy = buy;
-        r.sell = sell;
-        if(r.buy != 0 or r.sell != 0){
+        if(buy != 0 or sell != 0){
             ruta left, right;
             if(not t.left().empty() or not t.right().empty()){
-                left = triar_ruta(t.left(), r.buy, r.sell);
-                right = triar_ruta(t.right(), r.buy, r.sell);
+                left = triar_ruta(t.left(), buy, sell);
+                right = triar_ruta(t.right(), buy, sell);
             }
             if(left.trans > right.trans){
                 r = left;
@@ -342,7 +340,7 @@
                         last_op = op.front();
                         found = true;
                     }
-                    int comp = op.front().s_comp; 
+                    int comp = op.front().comp; 
                     int nec, hav, pes, vol;
                     if(comp > 0){
                         nec = mapa_ciutats[op.front().idc].necessitats(id_buy);
@@ -357,7 +355,7 @@
                         }
                         mapa_ciutats[op.front().idc].mod_prod(pes, vol, nec, hav, id_buy);
                     }
-                    int vend = op.front().s_vend; 
+                    int vend = op.front().vend; 
                     if(vend > 0){
                         nec = mapa_ciutats[op.front().idc].necessitats(id_sell);
                         hav = mapa_ciutats[op.front().idc].propietat(id_sell)+vend;

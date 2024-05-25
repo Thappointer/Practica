@@ -9,53 +9,63 @@
  * - Nombre de vendes efectuades pel vaixell a la ciutat.
  * - L'identificador de la ciutat.
  * - Un booleà que indica si l'operació és nul·la.
+ * - Un constructor buit que defineix les compres i vendes a zero.
  * - Un constructor que defineix tots els valors anteriors.
+ * 
+ * Nota: Tota operació serà no nul·la per defecte.
 */
-struct operacio
+struct operacio //COMMENTED
 {
-    int s_comp, s_vend;
+    int comp, vend;
     id_ciutat idc;
     bool null;
+
+    /** @brief Constructor per defecte d'operació
+     * @pre cert
+     * @post Les compres i vendes són inicialitzades a zero. La operació no és nul·la.
+    */
     operacio(){
-        s_comp = 0;
-        s_vend = 0;
+        comp = 0;
+        vend = 0;
         null = false;
     }
-    operacio(int comp, int vend, id_ciutat ct)
+    
+    /** @brief Constructor amb compres i vendes d'operació.
+     * 
+     * @pre La ciutat identificada pel tercer paràmetre explícit forma part del paràmetre implícit.
+     * Tant el primer com el segon paràmetre explícit són majors o iguals que zero. 
+     * 
+     * @post Les compres i vendes són inicialitzades a amb els valors del primer i segon paràmetre 
+     * explícit respectivament. L'identificador és inicialitzat amb el tercer paràmetre explícit.
+     * Per últim, la operació no és nul·la.
+    */
+    operacio(int c, int v, id_ciutat ct)
     {
-        s_comp = comp;
-        s_vend = vend;
+        comp = c;
+        vend = v;
         idc = ct;
         null = false;
     }
 };
 
 
-/** @brief Struct que conté característiques d'una ruta. //buy i sell potser no fan falta.
+/** @brief Struct que conté característiques d'una ruta.
 *   
 *   Conté:
-* - Nombre total de transaccions. 
-* - El nombre de productes a comprar i a vendre, que es modificaran segons es tria la ruta.
-* - Una cua amb les operacions de cada ciutat visitada pel vaixell. 
+* - Nombre total de transaccions.
+* - Una cua amb les operacions de cada ciutat present en el camí del vaixell, en les que es pot
+*   no haver efectuat cap transacció. 
 * - Constructor per defecte que únicament inicialitza les transferències a zero.
-* - Constructor que, addicionalment a la operació del per defecte, també defineix valors de compres i vendes.  
 */
 struct ruta
 {
-    int trans, buy, sell;
+    int trans;
 
     queue <operacio> operacions;
 
     ruta()
     {
         trans = 0;
-    }
-
-    ruta(int b, int s)
-    {
-        trans = 0;
-        buy = b;
-        sell = s;
     }
 };
 
@@ -90,14 +100,17 @@ class Riu{
     */
     Vaixell boat;
 
-    /** @brief Llegeix els identificadors de les ciutats, en ordre de l'arbre, pel canal estàndard d'entrada. 
-     * També esborra les ciutats i els viatges del vaixell.
-     * @pre La seqüència de lectura del riu que s'introdueix pel canal estàndard d'entrada fa servir el caràcter '#' per indicar
-     * els naixements del riu. 
-     * @post A partir de la seqüència llegida pel canal estàndard d'entrada, es modifica en preordre l'arbre del paràmetre implícit,
-     * de manera que la seva estructura es substitueix per la de la seqüència. 
+    /** @brief Llegeix els identificadors de les ciutats, en ordre de l'arbre, pel canal estàndard 
+     * d'entrada.
+     * 
+     * @pre La seqüència de lectura del riu que s'introdueix pel canal estàndard d'entrada fa
+     * servir el caràcter '#' per indicar els naixements del riu. 
+     * 
+     * @post A partir de la seqüència llegida pel canal estàndard d'entrada, es modifica en preordre 
+     * l'arbre del paràmetre implícit, de manera que la seva estructura es substitueix per la de la 
+     * seqüència. 
     */
-    void llegir_riu_aux(BinTree <id_ciutat> &t);
+    void llegir_riu_aux(BinTree <id_ciutat> &t); //COMMENTED
 
     /** @brief Intercanvia els productes entre dues ciutats que tenen amb els que necessiten. 
      * @pre Les dues ciutats pertanyen al riu i no són la mateixa.
@@ -116,25 +129,33 @@ class Riu{
     */
     ruta triar_ruta(BinTree <id_ciutat> t, int buy, int sell);
 
-    /** @brief Modifica les ciutats per les que el vaixell ha passat i retorna l'identificador de la última.
+    /** @brief Modifica les ciutats per les que el vaixell ha passat i retorna l'identificador 
+     * de la última.
+     * 
      * @pre El paràmetre explícit no és buit...
     */
     operacio efectuar_viatge(queue <operacio> &op);
 
-    /** @brief A partir d'un identificador de producte, es verifica si aquest hi és o no al mapa de productes. 
-     * @pre Un identificador d'un producte que pertanyi al paràmetre implícit sempre serà major estricte que zero i menor o 
-     * igual que el seu max_id.
-     * @post Retorna cert si l'identificador de producte del paràmetre explícit correspon a un dels productes del paràmetre implícit, 
-     * i fals en cas contrari. 
-     * Degut a que els identificadors de producte són consecutius, només cal comprovar si el paràmetre explícit pertany a l'intèrval
-     * [1, max_id].
+    /** @brief A partir d'un identificador de producte, es verifica si aquest hi és o no 
+     * al mapa de productes. 
+     * 
+     * @pre Un identificador d'un producte que pertanyi al paràmetre implícit sempre serà 
+     * major estricte que zero i menor o igual que el seu max_id.
+     * 
+     * @post Retorna cert si l'identificador de producte del paràmetre explícit correspon 
+     * a un dels productes del paràmetre implícit, i fals en cas contrari. 
+     * Degut a que els identificadors de producte són consecutius, només cal comprovar 
+     * si el paràmetre explícit pertany a l'intèrval [1, max_id].
     */  
     bool verificar_producte(id_producte id) const; //COMMENTED
 
-    /** @brief A partir d'un identificador de ciutat, es verifica si aquesta hi és o no al mapa de productes. 
+    /** @brief A partir d'un identificador de ciutat, es verifica si aquesta hi és o 
+     * no al mapa de productes. 
+     * 
      * @pre cert
-     * @post Retorna cert si la ciutat identificada pel paràmetre explícit pertany al paràmetre implícit, i fals 
-     * en cas contrari.
+     * 
+     * @post Retorna cert si la ciutat identificada pel paràmetre explícit pertany al
+     * paràmetre implícit, i fals en cas contrari.
     */  
     inline bool verificar_ciutat(id_ciutat s) const; //COMMENTED
 
@@ -142,7 +163,9 @@ class Riu{
 
     //Constructor
     /** @brief Constructor per defecte de la classe riu.
+     * 
      * @pre cert
+     * 
      * @post cert
     */
     Riu();
@@ -154,25 +177,43 @@ class Riu{
     
     //Modificadors
 
-    /** @brief Llegeix els identificadors de les ciutats, en ordre de l'arbre, pel canal estàndard d'entrada. 
-     * També esborra les ciutats i els viatges del vaixell.
-     * @pre La seqüència de lectura del riu que s'introdueix pel canal estàndard d'entrada fa servir el caràcter '#' per indicar
-     * els naixements del riu. 
-     * @post A partir de la seqüència llegida pel canal estàndard d'entrada, es modifica l'arbre del paràmetre implícit,
-     * de manera que la seva estructura es substitueix per la de la seqüència. 
-     * També s'esborren els elements del mapa de ciutats del paràmetre implícit així com la cua de viatges del seu vaixell.
+    /** @brief Llegeix els identificadors de les ciutats, en ordre de l'arbre, pel canal
+     * estàndard d'entrada. També esborra les ciutats i els viatges del vaixell.
+     * 
+     * @pre La seqüència de lectura del riu que s'introdueix pel canal estàndard d'entrada 
+     * fa servir el caràcter '#' per indicar els naixements del riu. 
+     * 
+     * @post A partir de la seqüència llegida pel canal estàndard d'entrada, es modifica 
+     * l'arbre del paràmetre implícit, de manera que la seva estructura es substitueix 
+     * per la de la seqüència. També s'esborren els elements del mapa de ciutats del paràmetre 
+     * implícit així com la cua de viatges del seu vaixell.
     */  
     void llegir_riu();
 
-    /** @brief Llegeix l'identificador d'una ciutat i, si aquesta existeix, un inventari amb els seus atributs 
-     * corresponents.
-     * @pre S'introdueix pel canal estàndard d'entrada un identificador de ciutat i el tamany d'un inventari, indicant
-     * el nombre de productes diferents. Cada un d'aquests productes pertanyen al comerç del riu. 
-     * Per cada producte diferent, es llegeixen el seu identificador, les unitats en propietat que té la ciutat i les que es necessiten.
-     * L'identificador és major o igual que 1 i menor o igual que el major identificador de producte.
-     * El nombre d'elements en possessió de cada producte és major o igual que zero i el nombre d'elements que es necessiten de cada producte és 
-     * major estricte que zero.
-     * @post 
+    /** @brief Llegeix l'identificador d'una ciutat i, si aquesta existeix, un inventari amb 
+     * els seus atributs corresponents.
+     * 
+     * @pre S'introdueix pel canal estàndard d'entrada un identificador de ciutat i el tamany
+     * d'un inventari, indicant el nombre de productes diferents. Cada un d'aquests productes
+     * pertanyen al comerç del riu. 
+     * Per cada producte diferent, s'indiquen el seu identificador, les unitats en propietat
+     * que té la ciutat i les que es necessiten. L'identificador és major o igual que 1 i menor
+     * o igual que el major identificador de producte. El nombre d'elements en possessió de cada
+     * producte és major o igual que zero i el nombre d'elements que es necessiten de cada 
+     * producte és major estricte que zero.
+     * 
+     * @post En cas de que la ciutat, identificada pel primer paràmetre explícit, no existeixi
+     * dins del paràmetre implícit, s'escriurà un error pel canal estàndard d'escriptura i es
+     * llegiran el nombre de productes així com, per cadascun, el seu identificador, les unitats
+     * en propietat i les que es necessiten. Aquestes dades no modificaran en cap cas el
+     * paràmetre implícit. 
+     * En cas contrari, es llegirà tantes vegades com indica el segon paràmetre explícit 
+     * l'identificador del producte, les seves unitats que la ciutat té en propietat i
+     * les que aquesta necessita, del producte en qüestió.   
+     * Aquests tres valors quedaran assignats a la ciutat corresponent del paràmetre implícit.
+     * En cas de que la ciutat existeixi, però ja formi part del paràmetre implícit, 
+     * s'esborrarà l'inventari antic abans d'assignar el nou. 
+     * 
     */
     void llegir_inventari(string id, int nump);
 
@@ -287,6 +328,5 @@ class Riu{
      * - El nombre de productes que es volen vendre
      * - La última ciutat visitada corresponent a cada un dels viatges realitzats pel vaixell.
     */
-    void escriure_vaixell(); //COMMENTED
-    
+    void escriure_vaixell();
 };
