@@ -1,7 +1,7 @@
 #include "riu.hh"
 
 //Constructor
-    void Riu::vaixell(int prodb, int b, int prods, int s)
+    void Riu::vaixell(id_producte prodb, int b, id_producte prods, int s)
     {
         boat.modificar_vaixell(prodb, b, prods, s);
     }

@@ -17,16 +17,22 @@ class Producte{
     int volum;
 
     public:
-    //constructor
+    
+    //Constructors
+    
     /** @brief Constructor per defecte de la classe producte. 
-     * 
+     * @pre Cert.
+     * @post Es declara i inicialitza els atributs del paràmetre implícit
+     * com nuls.
     */
     Producte();
 
     /** @brief construeix un producte amb un cert pès i volum
      * @pre Ambdós paràmentres explícits són enters positius
-     * @post Es declara i inicialitza el paràmetre implícit amb
-     * els atributs explícits.
+     * @post Es declara i inicialitza els atributs del paràmetre implícit
+     * assignant-hi els paràmetres explícits.
+     * Concretament, el primer paràmetre explícit correspondrà al pès del 
+     * paràmetre implícit i el segon paràmetre explícit al volum.  
     */
     Producte(int p, int v);
 
@@ -37,8 +43,9 @@ class Producte{
     */
     int consultar_pes() const;
 
-    /** @brief Retorna el volum del producte
-     * 
+    /** @brief Retorna el volum del producte.
+     * @pre Cert.
+     * @post Es retorna el valor corresponent al volum del paràmetre implícit.
     */
     int consultar_volum() const;
 

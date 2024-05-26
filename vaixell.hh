@@ -37,7 +37,8 @@ class Vaixell{
     //Constructors
 
     /** @brief Constructor de vaixell per defecte.
-     * 
+     * @pre cert
+     * @post Es construeix un paràmetre implícit amb unitats de compra i venta nul·les.
     */
     void vaixell();
 

@@ -143,12 +143,10 @@ class Riu{
      * al mapa de productes. 
      * 
      * @pre Un identificador d'un producte que pertanyi al paràmetre implícit sempre serà 
-     * major estricte que zero i menor o igual que el seu max_id.
+     * major estricte que zero i menor o igual que el total de productes diferents al paràmetre implícit.
      * 
      * @post Retorna cert si l'identificador de producte del paràmetre explícit correspon 
-     * a un dels productes del paràmetre implícit, i fals en cas contrari. 
-     * Degut a que els identificadors de producte són consecutius, només cal comprovar 
-     * si el paràmetre explícit pertany a l'intèrval [1, max_id].
+     * a un dels productes del paràmetre implícit, i fals en cas contrari.
     */  
     bool verificar_producte(id_producte id) const; //COMMENTED
 
@@ -174,9 +172,16 @@ class Riu{
     Riu();
 
     /** @brief Constructor de vaixell.
+     * @pre El primer i tercer paràmetre explícit són identificadors que pertanyen a productes 
+     * que formen part del paràmetre implícit. El segon i quart paràmetre explícit compleixen
+     * les següents condicions:
+     * - Almenys un dels dos és diferent de zero.
+     * - Cap dels dos és mai menor que zero.
      * 
+     * @post Es genera un vaixell amb els identificadors de compra i venda, així com les unitats
+     * de compra i de venda, assignades.
     */
-    void vaixell(int prodb, int b, int prods, int s);
+    void vaixell(id_producte prodb, int b, id_producte prods, int s);
     
     //Modificadors
 
@@ -248,13 +253,15 @@ class Riu{
     
     /** @brief Afegeix nous productes al comerç del riu.
      * @pre El nombre de nous productes agregats és major estricte que zero. 
-     * Es llegirà un identificador de producte i el seu pes i volum corresponents.
+     * Es llegeix, tantes vegades com indiqui el paràmetre explícit, el pes i volum corresponents a 
+     * un producte.
      * El primer producte agregat tindrà un identificador amb valor 1 i el valor de l'identificador 
      * de cada nou producte agregat serà el de l'identificador el producte anterior mes una unitat.
      * És a dir: nou_identificador = antic_identificador+1
      * Aquesta condició té en compte anteriors crides al mètode agregar_productes. 
      * 
-     * @post 
+     * @post Per cada pès i volum llegits, s'afegiran com dades d'un nou producte al paràmetre implícit, 
+     * segons el seu identificador corresponent.
     */
     void agregar_productes(int nump);
 
@@ -262,6 +269,23 @@ class Riu{
      * producte no formi part de l'inventari de la ciutat, aquest s'afegeix a l'inventari de la ciutat,
      * així com les seves dades. Es modificarà si cal el pès i volum totals, que en tot cas s'escriuran.  
      * 
+     * @pre El tercer paràmetre explícit és major o igual que zero. El quart paràmetre explícit és major 
+     * estricte que zero.
+     * 
+     * @post En cas de que la ciutat, identificada pel primer paràmetre explícit, no existeixi dins del 
+     * paràmetre implícit, s'escriurà un error pel canal estàndard d'escriptura.
+     * En un segon cas en que la ciutat existeixi, però el producte identificada pel segon paràmetre 
+     * explícit no formi part del comerç del paràmetre implícit, s'escriura un error diferent pel canal 
+     * estàndard d'escriptura.
+     * En un últim cas en que tant la ciutat com el producte existeixin al paràmetre implícit, però aquest 
+     * ja formi part de l'inventari de la ciutat, s'escriura un últim error diferent pel canal estàndard 
+     * d'escriptura.
+     * En cas de passar totes les comprovacions, s'afegirà a l'inventari de la ciutat indicada pel primer 
+     * paràmetre explícit, el producte indicat pel segon paràmetre explícit. Les unitats en propietat i 
+     * que es necessiten corresponents són indicades pel tercer i quart paràmetre explícit respectivament.   
+     * Durant aquest procés s'actualitza el pès i volum totals de la ciutat.
+     * Finalment s'escriuen el pes i volum totals actualitzats de l'inventari de la ciutat pel canal estandard
+     * de sortida. 
     */
     void posar_producte(id_ciutat ct, id_producte idp, int have, int need);
 
@@ -269,6 +293,24 @@ class Riu{
      * producte formi part de l'inventari de la ciutat, es modificaran les seves dades de l'inventari així 
      * com de ser necessari el pès i volum totals, que en tot cas s'escriuran.
      * 
+     * @pre El tercer paràmetre explícit és major o igual que zero. El quart paràmetre explícit és major 
+     * estricte que zero.
+     * 
+     * @post En cas de que la ciutat, identificada pel primer paràmetre explícit, no existeixi dins del 
+     * paràmetre implícit, s'escriurà un error pel canal estàndard d'escriptura.
+     * En un segon cas en que la ciutat existeixi, però el producte identificada pel segon paràmetre 
+     * explícit no formi part del comerç del paràmetre implícit, s'escriura un error diferent pel canal 
+     * estàndard d'escriptura.
+     * En un últim cas en que tant la ciutat com el producte existeixin al paràmetre implícit, però aquest 
+     * no formi part de l'inventari de la ciutat, s'escriura un últim error diferent pel canal estàndard 
+     * d'escriptura.
+     * En cas de passar totes les comprovacions, es substituïrà a l'inventari de la ciutat indicada pel primer 
+     * paràmetre explícit, el producte indicat pel segon paràmetre explícit. Les noves les unitats
+     * en propietat i que es necessiten corresponents vindran indicades pel tercer i quart paràmetre explícit 
+     * respectivament.
+     * Durant aquest procés s'actualitza el pès i volum totals de la ciutat.
+     * Finalment s'escriuen el pes i volum totals actualitzats de l'inventari de la ciutat pel canal estandard
+     * de sortida. 
     */
     void modificar_producte(id_ciutat ct, id_producte idp, int have, int need);
     
@@ -276,6 +318,22 @@ class Riu{
      * producte no formi part de l'inventari de la ciutat, s'esborren les seves dades de l'inventari. 
      * De ser necessari, es modificaran el pès i volum totals, que en tot cas s'escriuran.
      * 
+     * @pre Cert.
+     * 
+     * @post En cas de que la ciutat, identificada pel primer paràmetre explícit, no existeixi dins del 
+     * paràmetre implícit, s'escriurà un error pel canal estàndard d'escriptura.
+     * En un segon cas en que la ciutat existeixi, però el producte identificada pel segon paràmetre 
+     * explícit no formi part del comerç del paràmetre implícit, s'escriura un error diferent pel canal 
+     * estàndard d'escriptura.
+     * En un últim cas en que tant la ciutat com el producte existeixin al paràmetre implícit, però aquest 
+     * no formi part de l'inventari de la ciutat, s'escriura un últim error diferent pel canal estàndard 
+     * d'escriptura.
+     * En cas de passar totes les comprovacions, s'esborrarà a l'inventari de la ciutat indicada pel primer 
+     * paràmetre explícit, les dades del producte indicat pel segon paràmetre explícit, de manera que aquest 
+     * ja no formarà part de l'inventari.
+     * Durant aquest procés s'actualitza el pès i volum totals de la ciutat.
+     * Finalment s'escriuen el pes i volum totals actualitzats de l'inventari de la ciutat pel canal estandard
+     * de sortida. 
     */
     void treure_producte(id_ciutat ct, id_producte idp);
 

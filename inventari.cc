@@ -18,12 +18,6 @@
         map_inventari.erase(id);
     }
 
-    void Inventari::property_modification(bool sum, int propietat, int id)
-    {
-        if(sum) map_inventari[id].have += propietat;
-        else map_inventari[id].have -= propietat;
-    }
-
     void Inventari::clear()
     {
         map_inventari.clear();

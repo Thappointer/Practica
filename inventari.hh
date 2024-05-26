@@ -52,15 +52,6 @@ class Inventari
     */
     void erase_prod_inventari(int id);
 
-    /** @brief Suma o resta una quantitat de productes a la quantitat que es té.
-     * @pre El paràmetre explícit id pertany al mapa de l'inventari.
-     * @post En cas de que el paràmetre explícit sum sigui cert, es sumarà a la quantitat
-     * del producte en posessió el paràmetre eplícit propietat. 
-     * En cas contrari es restarà a la quantitat del producte en posessió el paràmetre
-     * eplícit propietat.
-    */
-    void property_modification(bool sum, int propietat, int id);
-
     /** @brief Esborra tots els elements del mapa de l'inventari.
      * @pre cert
      * @post El mapa de l'inventari queda amb totes les posicions sense inicialitzar.
@@ -120,12 +111,14 @@ class Inventari
     */
     int excedent(int id);
 
-    /** @brief Verifica si un producte està o no està en l'inventari, segons el paràmetre explícit.
+    /** @brief Verifica si un producte està o no està en l'inventari, segons el segon paràmetre explícit.
      * 
-     * @post En cas de que el paràmetre explícit is_there sigui cert, es retornarà cert si la posició del
-     * paràmetre explícit id existeix en el mapa.
-     * En el cas contrari en que is_there és fals, es retornarà cert si la posició del
-     * paràmetre explícit id no existeix en el mapa.  
+     * @pre Cert.
+     * 
+     * @post En cas de que el paràmetre explícit is_there sigui cert, es retornarà cert si el producte 
+     * indicat pel primer paràmetre explícit pertany a l'inventari. En cas contrari es retornarà fals.
+     * En el cas contrari en que is_there és fals, es retornarà cert  si el producte 
+     * indicat pel primer paràmetre explícit no pertany a l'inventari. En cas contrari es retornarà fals.  
      * 
     */
     bool verificacio_inventari(int id, bool is_there);

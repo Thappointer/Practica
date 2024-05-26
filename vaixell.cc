@@ -4,6 +4,8 @@
 
 void Vaixell::vaixell()
 {
+    buy = 0;
+    sell = 0;
 }
 
 //Modificadors
