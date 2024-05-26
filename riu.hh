@@ -1,6 +1,8 @@
 #include "producte.hh"
 #include "vaixell.hh"
+#ifndef NO_DIAGRAM
 #include "BinTree.hh"
+#endif
 
 /** @brief Struct que conté una operació invidivual en una ruta.
  * 
@@ -14,6 +16,7 @@
  * 
  * Nota: Tota operació serà no nul·la per defecte.
 */
+
 struct operacio //COMMENTED
 {
     int comp, vend;
@@ -110,7 +113,7 @@ class Riu{
      * l'arbre del paràmetre implícit, de manera que la seva estructura es substitueix per la de la 
      * seqüència. 
     */
-    void llegir_riu_aux(BinTree <id_ciutat> &t); //COMMENTED
+    void llegir_riu_aux(BinTree <id_ciutat> &t);
 
     /** @brief Intercanvia els productes entre dues ciutats que tenen amb els que necessiten. 
      * @pre Les dues ciutats pertanyen al riu i no són la mateixa.
@@ -152,7 +155,7 @@ class Riu{
     /** @brief A partir d'un identificador de ciutat, es verifica si aquesta hi és o 
      * no al mapa de productes. 
      * 
-     * @pre cert
+     * @pre Cert.
      * 
      * @post Retorna cert si la ciutat identificada pel paràmetre explícit pertany al
      * paràmetre implícit, i fals en cas contrari.
@@ -211,23 +214,47 @@ class Riu{
      * l'identificador del producte, les seves unitats que la ciutat té en propietat i
      * les que aquesta necessita, del producte en qüestió.   
      * Aquests tres valors quedaran assignats a la ciutat corresponent del paràmetre implícit.
-     * En cas de que la ciutat existeixi, però ja formi part del paràmetre implícit, 
-     * s'esborrarà l'inventari antic abans d'assignar el nou. 
+     * En cas de que la ciutat existeixi, però ja tingui assignada un inventari, 
+     * s'esborrarà l'inventari antic abans d'assignar-hi el nou. 
      * 
     */
     void llegir_inventari(string id, int nump);
 
     /** @brief Llegeix múltiples inventaris de diverses ciutats.
-     * @pre cert
-     * @post Mentres que l'identificador sigui diferent de "#", es llegiran els inventaris de cada ciutat, a partir
-     * del seu nombre de producte corresponents.
+     * 
+     * @pre S'introdueix pel canal estàndard d'entrada un identificador de ciutat i el tamany
+     * d'un inventari, indicant el nombre de productes diferents. Cada un d'aquests productes
+     * pertanyen al comerç del riu. Tots els identificadors de ciutat són de ciutats que pertanyen 
+     * al paràmetre implícit.
+     * S'utilitzarà el caràcter '#' per indicar quan es deixen de llegir múltiples inventaris.
+     * Per cada producte diferent, s'indiquen el seu identificador, les unitats en propietat
+     * que té la ciutat i les que es necessiten. L'identificador és major o igual que 1 i menor
+     * o igual que el major identificador de producte. El nombre d'elements en possessió de cada
+     * producte és major o igual que zero i el nombre d'elements que es necessiten de cada 
+     * producte és major estricte que zero.
+     * 
+     * @post Es llegeix l'identificador de la ciutat. Mentres que aquest sigui diferent de "#", es 
+     * llegiran els inventaris de cada ciutat. 
+     * Es llegeix el nombre de productes diferents de l'inventari de la ciutat.
+     * Es llegirà, tantes vegades com indiqui el nombre de procutes diferents, l'identificador del 
+     * producte, les unitats que la ciutat té en propietat i les que aquesta necessita, del producte 
+     * en qüestió.   
+     * Aquests tres valors quedaran assignats a la ciutat corresponent del paràmetre implícit.
+     * En cas de que la ciutat existeixi, però ja tingui assignada un inventari, 
+     * s'esborrarà l'inventari antic abans d'assignar-hi el nou. 
      * 
     */
     void llegir_inventaris();
     
-    /** @brief Llegeix productes nous, a partir dels seus respectius identificadors, pesos i volums i els 
-     * afegeix al mapa de productes. 
-     * @pre Totes les ciutats existeixen...
+    /** @brief Afegeix nous productes al comerç del riu.
+     * @pre El nombre de nous productes agregats és major estricte que zero. 
+     * Es llegirà un identificador de producte i el seu pes i volum corresponents.
+     * El primer producte agregat tindrà un identificador amb valor 1 i el valor de l'identificador 
+     * de cada nou producte agregat serà el de l'identificador el producte anterior mes una unitat.
+     * És a dir: nou_identificador = antic_identificador+1
+     * Aquesta condició té en compte anteriors crides al mètode agregar_productes. 
+     * 
+     * @post 
     */
     void agregar_productes(int nump);
 

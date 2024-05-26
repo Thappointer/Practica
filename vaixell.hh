@@ -1,6 +1,8 @@
 #include "ciutat.hh"
+#ifndef NO_DIAGRAM
 #include <queue>
 #include <string>
+#endif
 
 
 /** @brief Classe que representa un vaixell
@@ -47,7 +49,10 @@ class Vaixell{
     void modificar_vaixell(int prodb, int b, int prods, int s);
 
     /** @brief Esborra els viatges del vaixell.
-     * 
+     * @pre cert
+     * @post El paràmetre implícit no conté cap ciutat que representi la última parada de cap viatge.
+     * El paràmetre implícit sí conservarà els valors de compres i de vendes a realitzar, així com
+     * els identificadors de producte corresponents als productes a vendre o comprar.
     */
     void clear();
 

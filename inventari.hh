@@ -1,6 +1,8 @@
+#ifndef NO_DIAGRAM
 #include <map>
-#include <list>
-#include <algorithm>
+#endif
+
+
 using namespace std;
 
 /** @brief Struct que emmagatzema les unitats d'un producte que es tenen i necessiten.

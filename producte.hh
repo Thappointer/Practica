@@ -31,8 +31,9 @@ class Producte{
     Producte(int p, int v);
 
     //Consultors
-    /** @brief Retorna el pes del producte
-     * 
+    /** @brief Retorna el pes del producte.
+     * @pre Cert.
+     * @post Es retorna el valor corresponent al pes del paràmetre implícit.
     */
     int consultar_pes() const;
 

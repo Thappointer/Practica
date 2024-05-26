@@ -1,5 +1,7 @@
 #include "inventari.hh"
+#ifndef NO_DIAGRAM
 #include <iostream>
+#endif
 
 /** @brief Identificador que assigna un valor enter a un producte
  * 
