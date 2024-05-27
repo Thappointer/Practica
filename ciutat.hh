@@ -57,18 +57,44 @@ class Ciutat{
     /** @brief Afegeix un nou producte a l'inventari, amb la seva quantitat d'unitats necessitades
      * i en propietat. També modifica, si cal, el pès i volum totals.
      * 
+     * @pre El tercer paràmetre explícit és major estricte que zero. El quart paràmetre explícit és major 
+     * o igual que zero. L'identificador de producte, proporcionat pel cinquè paràmetre explíct, forma 
+     * part del comerç del riu, però no forma part del paràmetre implícit.
      * 
+     * @post S'afegirà a l'inventari del paràmetre implícit, el producte indicat pel cinquè paràmetre explícit. 
+     * Les unitats que es necessiten i en propietat corresponents són indicades pel tercer i quart paràmetre 
+     * explícit respectivament.   
+     * Durant aquest procés s'actualitza el pès i volum totals de la ciutat, sumant-hi els valors del pès i
+     * volum del nou producte, representats pel primer i segon paràmetre explícit respectivament.
     */
     void add_prod(int pes, int vol, int nec, int hav, int id);
 
     /** @brief Modifica un producte de l'inventari, substituïnt les unitats necessitades
      * i en propietat. També modifica, si cal, el pès i volum totals.
      * 
+     * @pre El tercer paràmetre explícit és major estricte que zero. El quart paràmetre explícit és major 
+     * o igual que zero. L'identificador de producte, proporcionat pel cinquè paràmetre explíct, forma 
+     * part tant del comerç del riu com del paràmetre implícit.
+     * 
+     * @post Es substiutuïrà a l'inventari del paràmetre implícit, les dades del producte indicat pel cinquè 
+     * paràmetre explícit per unes noves unitats que es necessiten i en propietat, que venen indicades 
+     * pel tercer i quart paràmetre explícit respectivament.   
+     * Durant aquest procés s'actualitza el pès i volum totals del paràmetre implícit, restant-hi els 
+     * valors antics del pes i volum totals i posteriorment sumant-hi els nous valors, representats pel 
+     * primer i segon paràmetre explícit respectivament.
     */
     void mod_prod(int pes, int vol, int nec, int hav, int id);
 
     /** @brief Treu un nou producte de l'inventari. També modifica, si cal, el pès i volum totals.
      * 
+     * @pre L'identificador de producte, proporcionat pel cinquè paràmetre explíct, forma 
+     * part tant del comerç del riu com del paràmetre implícit.
+     * 
+     * @post Es suprimirà de l'inventari del paràmetre implícit el producte indicat pel cinquè 
+     * paràmetre explícit.
+     * Durant aquest procés s'actualitza el pès i volum totals del paràmetre implícit, restant-hi els 
+     * valors del pes i volum totals corresponents al producte suprimit, que venen indicats pel primer
+     * i segon paràmetre explícit respectivament.
     */
     void erase_prod(int pes, int vol, int id);
 
@@ -141,7 +167,7 @@ class Ciutat{
     void escriure_inventari();
 
     /** @brief Escriu el pès i volum totals de la ciutat.
-     * @pre cert
+     * @pre Cert.
      * @post Escriu pel canal estàndard de sortida el pès total, seguit del volum total, separats amb un caràcter d'espaiat.
     */
     void escriure_unitats();

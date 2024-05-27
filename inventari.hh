@@ -38,10 +38,10 @@ class Inventari
 
     /** @brief Afegeix o modifica, a partir de la seva id corresponent, el nombre de productes que es
      *  tenen i es necessiten d'un producte en concret al mapa de l'inventari. 
-     * @pre L'identificador id forma part del mapa general de productes, necessitat 
-     * és un enter positiu i propietat és un enter major estricte que zero.
-     * @post L'struct prod de map_inventari corresponent a la posició indicada per id 
-     * té el valor necessitat a need i el valor propietat a have. 
+     * @pre L'identificador proporcionat pel tercer paràmetre explícit forma part del comerç del riu, 
+     * el primer paràmetre explícit és un enter major estricte que zero i el segon és un enter major o igual que zero.
+     * @post Les unitats en propietat i que es necessiten del producte, s'han substituït per les indicades pels 
+     * paràmetres explícits. 
      *  
     */
     void mod_prod_inventari(int necessitat, int propietat, int id);
@@ -57,7 +57,6 @@ class Inventari
      * @post El mapa de l'inventari queda amb totes les posicions sense inicialitzar.
     */
     void clear();
-
 
     //Consultors
     /** @brief Retorna la quantitat de productes de l'inventari.

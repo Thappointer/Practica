@@ -4,6 +4,12 @@
 #include "BinTree.hh"
 #endif
 
+/** @brief Classe que representa un riu
+ *  
+*/
+class Riu{
+    private:
+
 /** @brief Struct que conté una operació invidivual en una ruta.
  * 
  * Conté:
@@ -71,12 +77,6 @@ struct ruta
         trans = 0;
     }
 };
-
-/** @brief Classe que representa un riu
- *  
-*/
-class Riu{
-    private:
     
     /** @brief Arbre que emmagatzema els id's de cada ciutat 
      * 

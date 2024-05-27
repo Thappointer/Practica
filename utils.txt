@@ -19,13 +19,13 @@ FLAGS = -D_JUDGE_ -D_GLIBCXX_DEBUG -O2 -Wall -Wextra -Werror -Wno-sign-compare -
 
 6. consultar_num o cn.
 
-7. agregar_productos o ap. 
+7. agregar_productos o ap. //CHECKED & COMMENTED
 
 8. escribir_producto o ep. 
 
 9. escribir_ciudad o ec. 
 
-10. poner_prod o pp. 
+10. poner_prod o pp. //CHECKED & COMMENTED
 
 11. modificar_prod o mp. 
 
